@@ -206,3 +206,11 @@ for (k in seq_along(horizons)) {
 cat("\nRANDOM WALK ROLLING BACKTEST PERFORMANCE\n")
 
 print(round(performance_rw, 4))
+
+dir.create("results", showWarnings = FALSE)
+
+write.csv(
+  performance_rw,
+  "results/random_walk_performance.csv",
+  row.names = FALSE
+)
