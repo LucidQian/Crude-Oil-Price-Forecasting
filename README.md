@@ -122,11 +122,21 @@ Crude-Oil-Price-Forecasting/
 │   ├── 01_Data_Preparation.R
 │   ├── 02_Random_Walk.R
 │   ├── 03_ARIMAX_model.R
-│   └── 04_Predict_60.R
+│   ├── 04_Predict_60.R
+│   └── 05_Visualizations.R
 ├── data/
 │   ├── data.csv
 │   ├── train.csv
 │   └── test.csv
+├── results/
+│   ├── arimax_performance.csv
+│   └── random_walk_performance.csv
+├── figures/
+│   ├── historical_prices.png
+│   ├── mae_comparison.png
+│   ├── rmse_comparison.png
+│   ├── rmse_improvement.png
+│   └── forecast_60_days.png
 └── README.md
 ```
 
