@@ -86,7 +86,7 @@ Directional Accuracy measures whether the predicted price movement has the same 
 
 For the no-drift Random Walk benchmark, directional accuracy is reported as not applicable because the model predicts zero price change.
 
-## Results and Visualizations
+## 6. Results and Visualizations
 
 ### Historical Energy Market Prices
 ![Historical Prices](figures/historical_prices.png)
@@ -100,7 +100,21 @@ For the no-drift Random Walk benchmark, directional accuracy is reported as not 
 ### 60-Day Brent Price Forecast
 ![60-Day Forecast](figures/forecast_60_days.png)
 
-## 6. Repository Structure
+## 7. Results and Discussion
+
+The out-of-sample backtesting results demonstrate the practical applicability and competitive forecasting performance of the proposed ARIMAX forecasting framework in modeling Brent crude oil price dynamics across multiple forecast horizons.
+
+The ARIMAX model achieves superior RMSE performance at the 1-day and 20-day forecast horizons, delivering improvements of approximately 1.59% and 0.81%, respectively, relative to the Random Walk benchmark. These results highlight the potential value of incorporating WTI crude oil prices, XLE market information, and historical Brent price dynamics into a multivariate forecasting framework.
+
+Across all four forecast horizons, the ARIMAX model maintains forecasting accuracy closely comparable to the Random Walk benchmark, demonstrating competitive performance across short-, medium-, and longer-term prediction horizons. In particular, the improvements observed at selected horizons suggest that the inclusion of external market information can enhance predictive accuracy under certain forecasting conditions.
+
+Furthermore, the model achieves directional accuracy of approximately 50%–53%, with its highest directional accuracy of 53.28% at the 60-day horizon.
+
+Overall, the project demonstrates the practical application of ARIMAX modeling to energy-market forecasting and establishes a reproducible quantitative research framework that combines multivariate time-series analysis, benchmark comparison, and multi-horizon performance evaluation.
+
+Future extensions could incorporate GARCH, VAR, and machine-learning-based forecasting methods to further explore predictive relationships and improve forecasting performance across different market regimes.
+
+## 8. Repository Structure
 
 ```text
 Crude-Oil-Price-Forecasting/
@@ -116,7 +130,7 @@ Crude-Oil-Price-Forecasting/
 └── README.md
 ```
 
-## 7. Implementation
+## 9. Implementation
 
 **Programming Language:** R
 
@@ -137,7 +151,7 @@ To reproduce the analysis, run the scripts from the repository root directory in
 
 Ensure the required R packages are installed and the data paths are configured relative to the repository root.
 
-## 8. Limitations and Future Extensions
+## 10. Limitations and Future Extensions
 
 Potential extensions include:
 
@@ -146,6 +160,6 @@ Potential extensions include:
 - Evaluating forecast performance across different market regimes.
 - Extending the framework to machine-learning-based forecasting models.
 
-## 9. Disclaimer
+## 11. Disclaimer
 
 This project is intended for educational and quantitative research purposes only. Forecasts are not investment recommendations.
