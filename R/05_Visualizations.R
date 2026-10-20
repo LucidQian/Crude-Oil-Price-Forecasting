@@ -53,34 +53,77 @@ legend("topright",
 grid()
 dev.off()
 
-
 # ==========================================
 # FIGURE 2: MAE COMPARISON
 # ==========================================
 
-mae_values <- rbind(arimax$MAE, rw$MAE)
+arimax <- read.csv("results/arimax_performance.csv")
+rw <- read.csv("results/random_walk_performance.csv")
 
-png("figures/mae_comparison.png",
-    width = 1400, height = 850, res = 150)
+# Forecast horizons
+horizons <- c(1, 5, 20, 60)
+
+# Match results by horizon
+arimax <- arimax[match(horizons, arimax$Horizon), ]
+rw <- rw[match(horizons, rw$Horizon), ]
+
+stopifnot(
+  !anyNA(arimax$MAE),
+  !anyNA(rw$MAE)
+)
+
+# MAE comparison matrix
+mae_values <- rbind(
+  ARIMAX = arimax$MAE,
+  "Random Walk" = rw$MAE
+)
+
+# Create output folder
+dir.create("figures", showWarnings = FALSE)
+
+# Save figure
+png(
+  "figures/mae_comparison.png",
+  width = 1600,
+  height = 950,
+  res = 160
+)
 
 par(mar = c(5, 5, 4, 2))
 
-barplot(mae_values,
-        beside = TRUE,
-        names.arg = arimax$Horizon,
-        col = c("steelblue", "tomato"),
-        ylim = c(0, max(mae_values) * 1.2),
-        main = "ARIMAX vs Random Walk: MAE",
-        xlab = "Forecast Horizon (Trading Days)",
-        ylab = "Mean Absolute Error")
+# Grouped bar chart
+bp <- barplot(
+  mae_values,
+  beside = TRUE,
+  col = c("steelblue", "tomato"),
+  names.arg = paste(horizons, "Days"),
+  ylim = c(0, max(mae_values) * 1.2),
+  main = "ARIMAX vs Random Walk: MAE Comparison",
+  xlab = "Forecast Horizon (Trading Days)",
+  ylab = "Mean Absolute Error",
+  border = NA,
+  cex.main = 1.3,
+  cex.lab = 1.1
+)
 
-legend("topleft",
-       legend = c("ARIMAX", "Random Walk"),
-       fill = c("steelblue", "tomato"),
-       bty = "n")
+# Add MAE values above bars
+text(
+  x = bp,
+  y = mae_values,
+  labels = sprintf("%.4f", mae_values),
+  pos = 3,
+  cex = 0.8
+)
+
+# Legend
+legend(
+  "topleft",
+  legend = c("ARIMAX", "Random Walk"),
+  fill = c("steelblue", "tomato"),
+  bty = "n"
+)
 
 dev.off()
-
 
 # ==========================================
 # FIGURE 3: RELATIVE RMSE IMPROVEMENT
@@ -114,5 +157,78 @@ legend("topright",
        bty = "n")
 
 cat("First three figures generated successfully!\n")
+
+dev.off()
+
+# =====================================
+# FIGURE 4: RMSE COMPARISON
+# =====================================
+
+# Load backtesting results
+arimax <- read.csv("results/arimax_performance.csv")
+rw <- read.csv("results/random_walk_performance.csv")
+
+# Forecast horizons
+horizons <- c(1, 5, 20, 60)
+
+# Match results by horizon
+arimax <- arimax[match(horizons, arimax$Horizon), ]
+rw <- rw[match(horizons, rw$Horizon), ]
+
+stopifnot(
+  !anyNA(arimax$RMSE),
+  !anyNA(rw$RMSE)
+)
+
+# RMSE comparison matrix
+rmse_values <- rbind(
+  ARIMAX = arimax$RMSE,
+  "Random Walk" = rw$RMSE
+)
+
+# Create output folder
+dir.create("figures", showWarnings = FALSE)
+
+# Save figure
+png(
+  "figures/rmse_comparison.png",
+  width = 1600,
+  height = 950,
+  res = 160
+)
+
+par(mar = c(5, 5, 4, 2))
+
+# Grouped bar chart
+bp <- barplot(
+  rmse_values,
+  beside = TRUE,
+  col = c("steelblue", "tomato"),
+  names.arg = paste(horizons, "Days"),
+  ylim = c(0, max(rmse_values) * 1.2),
+  main = "ARIMAX vs Random Walk: RMSE Comparison",
+  xlab = "Forecast Horizon (Trading Days)",
+  ylab = "Root Mean Squared Error",
+  border = NA,
+  cex.main = 1.3,
+  cex.lab = 1.1
+)
+
+# Add RMSE values above bars
+text(
+  x = bp,
+  y = rmse_values,
+  labels = sprintf("%.4f", rmse_values),
+  pos = 3,
+  cex = 0.8
+)
+
+# Legend
+legend(
+  "topleft",
+  legend = c("ARIMAX", "Random Walk"),
+  fill = c("steelblue", "tomato"),
+  bty = "n"
+)
 
 dev.off()
