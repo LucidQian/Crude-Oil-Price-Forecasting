@@ -1,6 +1,6 @@
 library(stats)
 library(forecast)
-df <- read.csv("C:/Users/qkq/Desktop/Oil Price Forecast/data.csv",header = T)
+df <- read.csv("data/data.csv",header = T)
 tail(df)
 
 d1 = diff(df$brent_Price)
