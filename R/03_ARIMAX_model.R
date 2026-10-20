@@ -5,7 +5,7 @@ library(forecast)
 # ARIMAX MODEL
 #=============================
 
-rt <- read.csv("C:/Users/qkq/Desktop/Oil Price Forecast/train.csv",header = T)
+rt <- read.csv("data/train.csv",header = T)
 tail(rt)
 nrow(rt)
 
@@ -74,7 +74,7 @@ Box.test(xle_model$residuals, fitdf=1, type='Ljung', lag=10)
 # PERIODIC PARAMETER RE-ESTIMATION
 # =====================================
 
-path <- "C:/Users/qkq/Desktop/Oil Price Forecast/"
+path <- "data/"
 
 rt <- read.csv(paste0(path, "train.csv"))
 test <- read.csv(paste0(path, "test.csv"))
