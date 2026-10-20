@@ -7,7 +7,7 @@
 dir.create("figures", showWarnings = FALSE)
 
 # Load datasets
-df <- read.csv("C:/Users/qkq/Desktop/oil_price_forecast/data/data.csv")
+df <- read.csv("data/data.csv")
 arimax <- read.csv("results/arimax_performance.csv")
 rw <- read.csv("results/random_walk_performance.csv")
 
