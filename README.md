@@ -86,6 +86,20 @@ Directional Accuracy measures whether the predicted price movement has the same 
 
 For the no-drift Random Walk benchmark, directional accuracy is reported as not applicable because the model predicts zero price change.
 
+## Results and Visualizations
+
+### Historical Energy Market Prices
+![Historical Prices](figures/historical_prices.png)
+
+### MAE Comparison
+![MAE Comparison](figures/mae_comparison.png)
+
+### Relative RMSE Improvement
+![RMSE Improvement](figures/rmse_improvement.png)
+
+### 60-Day Brent Price Forecast
+![60-Day Forecast](figures/forecast_60_days.png)
+
 ## 6. Repository Structure
 
 ```text
