@@ -94,6 +94,9 @@ For the no-drift Random Walk benchmark, directional accuracy is reported as not 
 ### MAE Comparison
 ![MAE Comparison](figures/mae_comparison.png)
 
+### RMSE Comparison
+![RMSE Comparison](figures/rmse_bar_comparison.png)
+
 ### Relative RMSE Improvement
 ![RMSE Improvement](figures/rmse_improvement.png)
 
