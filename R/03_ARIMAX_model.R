@@ -427,3 +427,11 @@ for (k in seq_along(horizons)) {
 cat("\nARIMAX ROLLING BACKTEST PERFORMANCE\n")
 
 print(round(performance_arimax, 4))
+
+dir.create("results", showWarnings = FALSE)
+
+write.csv(
+  performance_arimax,
+  "results/arimax_performance.csv",
+  row.names = FALSE
+)
