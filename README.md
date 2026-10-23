@@ -323,7 +323,7 @@ jupyter notebook
 
 Use `visualization/historical_comparison.ipynb` for historical comparisons and model evaluation plots, and `visualization/forecast_60.ipynb` for future forecast visualization. Existing PNGs are available in `figures/`.
 
-## Forecast Output
+## Forecasts and Backtesting Results
 
 | Output | Description |
 |---|---|
