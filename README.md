@@ -322,8 +322,6 @@ The forecast scripts currently export the horizon number and predicted price, ra
 
 Possible next steps include:
 
-- Refit feature selection and scaling inside each time-series cross-validation fold.
-- Standardize forecast origins, information sets, rolling windows, and tuning protocols across models before drawing formal performance conclusions.
 - Add confidence or prediction intervals and evaluate forecast calibration.
 - Evaluate performance across different oil-market regimes.
 - Add transaction costs and a clearly specified trading rule only if the project is extended from price forecasting to strategy testing.
