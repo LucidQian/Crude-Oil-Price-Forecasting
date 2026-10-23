@@ -17,7 +17,6 @@ This project explores Brent crude oil price forecasting using classical time-ser
 - [Setup](#setup)
 - [Reproduce the Analysis](#reproduce-the-analysis)
 - [Forecast Output](#forecast-output)
-- [Important Evaluation Notes](#important-evaluation-notes)
 - [Limitations and Further Work](#limitations-and-further-work)
 - [Authentication and Credentials](#authentication-and-credentials)
 - [Disclaimer](#disclaimer)
