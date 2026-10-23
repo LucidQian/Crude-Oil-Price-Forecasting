@@ -318,14 +318,6 @@ Use `visualization/historical_comparison.ipynb` for historical comparisons and m
 
 The forecast scripts currently export the horizon number and predicted price, rather than a calendar date column. The MLP forecasting code calculates a set of future business dates internally but does not include those dates in the saved CSV. Therefore, interpret the output `Horizon` as a forecast step, not a guaranteed exchange trading date.
 
-## Important Evaluation Notes
-
-- **The backtesting implementations differ.** The R ARIMAX and Random Walk scripts use a 1,000-observation rolling window, ten-observation forecast steps, and periodic refitting. The MLP backtest uses selected features and horizon-specific model training with forecast origins spaced ten test observations apart. The reported metrics should therefore be treated as the results of the implementations currently in the repository, not a perfectly controlled head-to-head experiment.
-- **Feature-selection timing deserves scrutiny.** In the current MLP backtest, the top 30 features are selected once using the training sample and a 20-day target, then reused for all four horizons. This avoids selecting features directly on test outcomes, but the feature selection step is outside each cross-validation fold. For a strictly leakage-controlled hyperparameter comparison, feature selection and scaling should be fitted inside each time-series CV training fold.
-- **Future covariates are forecasted or approximated.** The recursive ARIMAX forecast depends on forecasts of WTI and XLE changes. The MLP 60-horizon script predicts a direct price change for each horizon from the latest feature row; it does not recursively create a new future feature row for each subsequent day.
-- **Forecast dates are not exchange calendars.** A business-day index can include dates when a particular exchange is closed. Calendar dates should be aligned to the relevant market trading calendar if required for downstream use.
-- **Data sources can change.** Yahoo Finance history and availability can change. Re-downloading data may yield different final observations or revised results.
-
 ## Limitations and Further Work
 
 Possible next steps include:
