@@ -18,7 +18,6 @@ This project explores Brent crude oil price forecasting using classical time-ser
 - [Reproduce the Analysis](#reproduce-the-analysis)
 - [Forecast Output](#forecast-output)
 - [Limitations and Further Work](#limitations-and-further-work)
-- [Authentication and Credentials](#authentication-and-credentials)
 - [Disclaimer](#disclaimer)
 
 ## Project Overview
@@ -324,12 +323,6 @@ Possible next steps include:
 - Add confidence or prediction intervals and evaluate forecast calibration.
 - Evaluate performance across different oil-market regimes.
 - Add transaction costs and a clearly specified trading rule only if the project is extended from price forecasting to strategy testing.
-
-## Authentication and Credentials
-
-This repository is a local data-analysis project. The inspected source files do not implement application login, user sessions, API-token exchange, OAuth, or a model-serving authentication layer. GitHub authentication is handled by GitHub itself when a contributor clones or pushes to the repository; it is not part of the forecasting model's request flow.
-
-The data-preparation script retrieves market data from Yahoo Finance through `quantmod` and does not define an API token in the project source. Do not put personal access tokens, passwords, or other secrets into the repository. If an authenticated external data provider is added later, credentials should be stored outside source control (for example, in environment variables or a local ignored configuration file).
 
 ## Disclaimer
 
