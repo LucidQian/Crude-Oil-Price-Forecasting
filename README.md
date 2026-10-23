@@ -223,7 +223,7 @@ The data-preparation script uses Yahoo Finance connectivity. If you only want to
 Use Python 3.10 or a compatible recent Python version with the following packages:
 
 ```bash
-python -m pip install numpy pandas matplotlib scikit-learn torch
+python -m pip install -r requirements.txt
 ```
 
 A virtual environment is recommended to keep project dependencies separate from other Python projects.
@@ -234,13 +234,14 @@ Run commands from the **repository root** so the relative R paths such as `data/
 
 ### Step 1 — Prepare or refresh the data (optional)
 
-In R:
+In R, set the working directory to the repository's `data/` folder and source the script using its relative path:
 
 ```r
-source("preprocessing/Data_Preparation.R")
+setwd("/path/to/Crude-Oil-Price-Forecasting/data")
+source("../preprocessing/Data_Preparation.R")
 ```
 
-This downloads the three market series, aligns common dates, and creates the full, training, and testing CSV files. The script writes CSVs to its current working directory, so make sure the working directory is the repository's `data/` folder or adjust the output paths before running it. The committed data files can be used without this step.
+Replace `/path/to/Crude-Oil-Price-Forecasting` with your local repository path. This downloads the three market series, aligns common dates, and creates `data.csv`, `train.csv`, and `test.csv` in the `data/` folder. The committed data files can be used without this step.
 
 ### Step 2 — Run ARIMAX rolling backtesting
 
