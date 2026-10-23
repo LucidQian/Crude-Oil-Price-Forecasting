@@ -5,7 +5,7 @@ library(forecast)
 # ARIMAX MODEL
 #=============================
 
-rt <- read.csv("C:/Users/qkq/Desktop/oil_price_forecast/data/train.csv",header = T)
+rt <- read.csv("data/train.csv",header = T)
 tail(rt)
 nrow(rt)
 
@@ -74,10 +74,8 @@ Box.test(xle_model$residuals, fitdf=1, type='Ljung', lag=10)
 # PERIODIC PARAMETER RE-ESTIMATION
 # =====================================
 
-path <- "C:/Users/qkq/Desktop/oil_price_forecast/data/"
-
-rt <- read.csv(paste0(path, "train.csv"))
-test <- read.csv(paste0(path, "test.csv"))
+rt <- read.csv("data/train.csv", header=T)
+test <- read.csv("data/test.csv", header=T)
 
 cols <- c("brent_Price", "wti_Price", "XLE")
 
@@ -425,7 +423,7 @@ for (k in seq_along(horizons)) {
 # =====================================
 
 # Set output directory
-results_dir <- "C:/Users/qkq/Desktop/oil_price_forecast/results"
+results_dir <- "oil_price_forecast/results"
 
 dir.create(
   results_dir,
