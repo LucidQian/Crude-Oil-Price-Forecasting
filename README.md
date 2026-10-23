@@ -19,6 +19,7 @@ This project explores Brent crude oil price forecasting using classical time-ser
 - [Forecast Output](#forecast-output)
 - [Important Evaluation Notes](#important-evaluation-notes)
 - [Limitations and Further Work](#limitations-and-further-work)
+- [Authentication and Credentials](#authentication-and-credentials)
 - [Disclaimer](#disclaimer)
 
 ## Project Overview
@@ -69,9 +70,10 @@ Crude-Oil-Price-Forecasting/
 │   ├── random_walk_performance.csv
 │   ├── arimax_forecast60.csv
 │   └── mlp_forecast60.csv
-└── visualization/
-    ├── historical_comparison.ipynb
-    └── forecast_60.ipynb
+├── visualization/
+│   ├── historical_comparison.ipynb
+│   └── forecast_60.ipynb
+└── requirements.txt                    # Python dependencies
 ```
 
 The `figures/` images and `results/` CSV files are saved project outputs. The notebooks under `visualization/` are intended for plotting and comparing historical data, model performance, and future forecasts.
