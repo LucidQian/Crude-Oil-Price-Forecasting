@@ -329,11 +329,9 @@ Use `visualization/historical_comparison.ipynb` for historical comparisons and m
 |---|---|
 | `results/arimax_forecast60.csv` | 60 ARIMAX forecast values |
 | `results/mlp_forecast60.csv` | 60 MLP forecast values |
-| `results/arimax_backtest_h{1,5,20,60}.csv` | ARIMAX origin date, target date, origin price, actual price, and prediction |
-| `results/mlp_backtest_h{1,5,20,60}.csv` | MLP forecast-origin prices and predictions |
+| `results/arimax_backtest_h{1,5,20,60}.csv` | ARIMAX origin date, target date, origin price, actual price, and predictions |
+| `results/mlp_backtest_h{1,5,20,60}.csv` | MLP origin date, origin prices, actual price and predictions |
 | `results/*_performance.csv` | Model-level metrics by horizon |
-
-The forecast scripts currently export the horizon number and predicted price, rather than a calendar date column. The MLP forecasting code calculates a set of future business dates internally but does not include those dates in the saved CSV. Therefore, interpret the output `Horizon` as a forecast step, not a guaranteed exchange trading date.
 
 ## Limitations and Further Work
 
