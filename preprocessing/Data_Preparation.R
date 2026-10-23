@@ -101,20 +101,8 @@ head(test)
 tail(test)
 
 #output csv
-write.csv(
-  df,
-  "C:/Users/qkq/Desktop/Oil Price Forecast/data.csv",
-  row.names = FALSE
-)
+write.csv(df, "data.csv", row.names = FALSE)
 
-write.csv(
-  train,
-  "C:/Users/qkq/Desktop/Oil Price Forecast/train.csv",
-  row.names = FALSE
-)
+write.csv(train, "train.csv", row.names = FALSE)
 
-write.csv(
-  test,
-  "C:/Users/qkq/Desktop/Oil Price Forecast/test.csv",
-  row.names = FALSE
-)
+write.csv(test, "test.csv", row.names = FALSE)
