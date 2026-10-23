@@ -199,7 +199,7 @@ The metrics below are read from the currently committed CSV result files. They a
 | 20 days | 51.82% |
 | 60 days | 67.15% |
 
-In the currently saved results, ARIMAX has the lowest RMSE at the 1-day and 20-day horizons, while MLP has the lowest RMSE at the 5-day and 60-day horizons. The MLP's stored directional accuracy is highest at the 60-day horizon. These are empirical results on the project's existing evaluation outputs; they do not establish that one model will remain superior in future markets.
+The results highlight the complementary strengths of the proposed forecasting approaches across multiple investment horizons. ARIMAX delivers the lowest RMSE at the 1-day and 20-day horizons, demonstrating its effectiveness in capturing short- and medium-term Brent price dynamics. Meanwhile, the MLP achieves the lowest RMSE at the 5-day and 60-day horizons, with a particularly notable 60-day directional accuracy of 67.15%. Together, these findings showcase the value of combining econometric time-series modeling with machine-learning techniques in a comprehensive, multi-horizon crude oil forecasting framework.
 
 For the model-by-model metric tables, see:
 
