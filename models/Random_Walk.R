@@ -6,15 +6,9 @@ library(stats)
 # =====================================
 
 # Load data
-rt <- read.csv(
-  "C:/Users/qkq/Desktop/oil_price_forecast/data/train.csv",
-  header = TRUE
-)
+rt <- read.csv("data/train.csv", header = TRUE)
 
-test <- read.csv(
-  "C:/Users/qkq/Desktop/oil_price_forecast/data/test.csv",
-  header = TRUE
-)
+test <- read.csv("data/test.csv", header = TRUE)
 
 # Brent price levels
 train_y <- as.numeric(rt$brent_Price)
