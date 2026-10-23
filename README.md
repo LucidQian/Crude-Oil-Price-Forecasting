@@ -14,6 +14,7 @@ This project explores Brent crude oil price forecasting using classical time-ser
 - [Methods](#methods)
 - [Backtesting and Metrics](#backtesting-and-metrics)
 - [Reported Results](#reported-results)
+- [Visualizations](#visualizations)
 - [Setup](#setup)
 - [Reproduce the Analysis](#reproduce-the-analysis)
 - [Forecast Output](#forecast-output)
@@ -205,6 +206,24 @@ For the model-by-model metric tables, see:
 - [ARIMAX performance](results/arimax_performance.csv)
 - [MLP performance](results/mlp_performance.csv)
 - [Random Walk performance](results/random_walk_performance.csv)
+
+## Visualizations
+
+### Historical Brent, WTI, and XLE Price Comparison
+
+![Historical price comparison](figures/historical_price_comparison.png)
+
+### Historical Price Changes
+
+![Historical price change comparison](figures/historical_price_change_comparison.png)
+
+### Out-of-Sample Model Performance
+
+![Model performance comparison](figures/model_performance_comparison.png)
+
+### Future 60-Step Brent Price Forecast Comparison
+
+![Future 60-day model comparison](figures/future_60day_model_comparison.png)
 
 ## Setup
 
