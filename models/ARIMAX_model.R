@@ -35,7 +35,7 @@ m2 <- arima(
   y,
   order = c(3,0,0),
   xreg = x,
-  include.mean = FALSE,
+  include.mean = FALSE
 )
 
 m2
@@ -423,7 +423,7 @@ for (k in seq_along(horizons)) {
 # =====================================
 
 # Set output directory
-results_dir <- "oil_price_forecast/results"
+results_dir <- "results"
 
 dir.create(
   results_dir,
