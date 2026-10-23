@@ -1,178 +1,344 @@
-# Crude Oil Price Forecasting Using ARIMAX
+# Brent Crude Oil Price Forecasting
 
-### Multi-Horizon Time Series Forecasting and Rolling-Window Backtesting in R
+**Multi-horizon forecasting with ARIMAX, a Multilayer Perceptron (MLP), and a Random Walk benchmark**
 
-## 1. Project Overview
+This project explores Brent crude oil price forecasting using classical time-series econometrics and a neural-network model. It combines data preparation, feature engineering, model estimation, out-of-sample evaluation, saved prediction results, and 60-step forecasting workflows.
 
-This project develops a quantitative time-series forecasting framework for Brent crude oil prices using an Autoregressive Integrated Moving Average with Exogenous Variables (ARIMAX) model.
+> **Scope note:** This is a research/coursework repository, not a trading system. Forecasts are uncertain and are not investment advice.
 
-The framework incorporates WTI crude oil futures prices, the Energy Select Sector SPDR Fund (XLE), and historical Brent price dynamics to generate multi-horizon forecasts.
+## Contents
 
-The forecasting performance is evaluated against a Random Walk benchmark through rolling-window out-of-sample backtesting.
+- [Project Overview](#project-overview)
+- [Repository Structure](#repository-structure)
+- [Data](#data)
+- [Methods](#methods)
+- [Backtesting and Metrics](#backtesting-and-metrics)
+- [Reported Results](#reported-results)
+- [Setup](#setup)
+- [Reproduce the Analysis](#reproduce-the-analysis)
+- [Forecast Output](#forecast-output)
+- [Important Evaluation Notes](#important-evaluation-notes)
+- [Limitations and Further Work](#limitations-and-further-work)
+- [Disclaimer](#disclaimer)
 
-## 2. Research Objectives
+## Project Overview
 
-- Develop an ARIMAX-based forecasting framework for Brent crude oil prices.
-- Investigate the predictive contribution of WTI, XLE, and historical Brent price changes.
-- Generate forecasts across multiple investment horizons.
-- Evaluate forecasting performance using rolling-window backtesting.
-- Compare ARIMAX predictions with a Random Walk benchmark.
+The objective is to assess whether information from related energy markets and engineered price features can help forecast Brent crude oil prices across different horizons.
 
-## 3. Dataset
+The repository currently contains three approaches:
 
-Historical market data are retrieved from Yahoo Finance using the `quantmod` package in R.
+1. **ARIMAX** — a time-series model for Brent daily price changes with exogenous market variables and autoregressive errors.
+2. **MLP** — a feed-forward neural network using engineered features derived from Brent, WTI, and XLE.
+3. **Random Walk** — a no-drift benchmark whose forecast equals the latest observed Brent price.
 
-| Variable | Yahoo Finance Ticker | Description |
-|---|---|---|
-| Brent Crude Oil | BZ=F | Brent crude oil futures |
-| WTI Crude Oil | CL=F | West Texas Intermediate crude oil futures |
-| XLE | XLE | Energy Select Sector SPDR Fund |
+The saved workflows evaluate 1-, 5-, 20-, and 60-trading-day horizons and include separate scripts to produce 60-step forecasts.
 
-The dataset covers the period beginning in September 2007 and extending through October 2026.
-
-Observations are aligned by trading date, and the resulting dataset is divided chronologically into:
-
-- Training set: 70%
-- Testing set: 30%
-
-## 4. Methodology
-
-### 4.1 ARIMAX Model
-
-The forecasting framework models daily Brent price changes using an ARIMAX(3,0,0) specification.
-
-The explanatory variables include:
-
-- Daily changes in WTI crude oil prices.
-- Daily changes in XLE prices.
-- Lagged 60-trading-day Brent price changes.
-
-WTI price changes are modeled using an AR(2) process, while XLE price changes are modeled using an AR(1) process.
-
-These auxiliary forecasts are incorporated into a recursive forecasting procedure to generate future Brent price predictions.
-
-### 4.2 Rolling-Window Backtesting
-
-The project implements rolling-window out-of-sample backtesting with periodic parameter re-estimation.
-
-| Parameter | Setting |
-|---|---|
-| Forecast horizons | 1, 5, 20, 60 trading days |
-| Rolling-window size | 1,000 observations |
-| Forecast-origin step | 10 trading days |
-| Parameter re-estimation frequency | 20 trading days |
-| Evaluation period | Chronological test dataset |
-
-At each forecast origin, predictions are generated using historical observations available up to that point.
-
-### 4.3 Random Walk Benchmark
-
-A Random Walk model without drift, ARIMA(0,1,0), is implemented as the benchmark.
-
-Under this specification, the forecasted future price equals the latest observed price.
-
-The benchmark provides a reference for assessing whether the ARIMAX framework improves predictive accuracy.
-
-## 5. Model Evaluation
-
-Forecasting performance is assessed using:
-
-- **MAE:** Mean Absolute Error.
-- **RMSE:** Root Mean Squared Error.
-- **MAPE:** Mean Absolute Percentage Error.
-- **DA:** Directional Accuracy.
-
-Directional Accuracy measures whether the predicted price movement has the same sign as the realized price movement over the corresponding forecast horizon.
-
-For the no-drift Random Walk benchmark, directional accuracy is reported as not applicable because the model predicts zero price change.
-
-## 6. Results and Visualizations
-
-### Historical Energy Market Prices
-![Historical Prices](figures/historical_prices.png)
-
-### MAE Comparison
-![MAE Comparison](figures/mae_comparison.png)
-
-### RMSE Comparison
-![RMSE Comparison](figures/rmse_bar_comparison.png)
-
-### Relative RMSE Improvement
-![RMSE Improvement](figures/rmse_improvement.png)
-
-### 60-Day Brent Price Forecast
-![60-Day Forecast](figures/forecast_60_days.png)
-
-## 7. Results and Discussion
-
-The out-of-sample backtesting results demonstrate the practical applicability and competitive forecasting performance of the proposed ARIMAX forecasting framework in modeling Brent crude oil price dynamics across multiple forecast horizons.
-
-The ARIMAX model achieves superior RMSE performance at the 1-day and 20-day forecast horizons, delivering improvements of approximately 1.59% and 0.81%, respectively, relative to the Random Walk benchmark. These results highlight the potential value of incorporating WTI crude oil prices, XLE market information, and historical Brent price dynamics into a multivariate forecasting framework.
-
-Across all four forecast horizons, the ARIMAX model maintains forecasting accuracy closely comparable to the Random Walk benchmark, demonstrating competitive performance across short-, medium-, and longer-term prediction horizons. In particular, the improvements observed at selected horizons suggest that the inclusion of external market information can enhance predictive accuracy under certain forecasting conditions.
-
-Furthermore, the model achieves directional accuracy of approximately 50%–53%, with its highest directional accuracy of 53.28% at the 60-day horizon.
-
-Overall, the project demonstrates the practical application of ARIMAX modeling to energy-market forecasting and establishes a reproducible quantitative research framework that combines multivariate time-series analysis, benchmark comparison, and multi-horizon performance evaluation.
-
-Future extensions could incorporate GARCH, VAR, and machine-learning-based forecasting methods to further explore predictive relationships and improve forecasting performance across different market regimes.
-
-## 8. Repository Structure
+## Repository Structure
 
 ```text
 Crude-Oil-Price-Forecasting/
-├── R/
-│   ├── 01_Data_Preparation.R
-│   ├── 02_Random_Walk.R
-│   ├── 03_ARIMAX_model.R
-│   ├── 04_Predict_60.R
-│   └── 05_Visualizations.R
 ├── data/
-│   ├── data.csv
-│   ├── train.csv
-│   └── test.csv
-├── results/
-│   ├── arimax_performance.csv
-│   └── random_walk_performance.csv
+│   ├── data.csv                         # Aligned historical series
+│   ├── train.csv                        # Chronological training split
+│   └── test.csv                         # Chronological testing split
 ├── figures/
-│   ├── historical_prices.png
-│   ├── mae_comparison.png
-│   ├── rmse_comparison.png
-│   ├── rmse_improvement.png
-│   └── forecast_60_days.png
-└── README.md
+│   ├── historical_price_comparison.png
+│   ├── historical_price_change_comparison.png
+│   ├── model_performance_comparison.png
+│   └── future_60day_model_comparison.png
+├── forecasting/
+│   ├── arimax_forecast60.R              # ARIMAX 60-step price forecast
+│   └── mlp_forecast60.py                # MLP 60-horizon forecasts
+├── models/
+│   ├── ARIMAX_model.R                   # ARIMAX estimation and rolling backtest
+│   ├── Random_Walk.R                    # Random Walk rolling benchmark
+│   └── mlp_model.py                     # MLP model, feature engineering, tuning and backtest
+├── preprocessing/
+│   └── Data_Preparation.R               # Download, align, and split data
+├── results/
+│   ├── arimax_backtest_h1.csv
+│   ├── arimax_backtest_h5.csv
+│   ├── arimax_backtest_h20.csv
+│   ├── arimax_backtest_h60.csv
+│   ├── arimax_performance.csv
+│   ├── mlp_backtest_h1.csv
+│   ├── mlp_backtest_h5.csv
+│   ├── mlp_backtest_h20.csv
+│   ├── mlp_backtest_h60.csv
+│   ├── mlp_performance.csv
+│   ├── random_walk_performance.csv
+│   ├── arimax_forecast60.csv
+│   └── mlp_forecast60.csv
+└── visualization/
+    ├── historical_comparison.ipynb
+    └── forecast_60.ipynb
 ```
 
-## 9. Implementation
+The `figures/` images and `results/` CSV files are saved project outputs. The notebooks under `visualization/` are intended for plotting and comparing historical data, model performance, and future forecasts.
 
-**Programming Language:** R
+## Data
 
-**Key Packages:**
+The R data-preparation script downloads closing prices from Yahoo Finance via `quantmod` and aligns the series by date.
 
-- `quantmod`
-- `forecast`
-- `tseries`
-- `fBasics`
-- `stats`
+| Series | Yahoo Finance symbol | Use |
+|---|---|---|
+| Brent crude oil futures | `BZ=F` | Forecast target |
+| WTI crude oil futures | `CL=F` | Related crude-oil market feature |
+| Energy Select Sector SPDR Fund | `XLE` | Energy-sector market feature |
 
-To reproduce the analysis, run the scripts from the repository root directory in the following order:
+The data-preparation script currently requests data from **1 September 2007 through 17 October 2026**. The actual last observation depends on data-provider availability and the download date.
 
-1. `01_Data_Preparation.R` — Download, clean, align, and split historical market data.
-2. `02_Random_Walk.R` — Evaluate the Random Walk benchmark.
-3. `03_ARIMAX_model.R` — Estimate the ARIMAX model and conduct rolling-window backtesting.
-4. `04_Predict_60.R` — Generate and visualize 60-trading-day forecasts.
+Observations are aligned on common dates, sorted chronologically, and split into 70% training data and 30% testing data. The generated CSV files have the following roles:
 
-Ensure the required R packages are installed and the data paths are configured relative to the repository root.
+- `data/data.csv`: aligned full sample.
+- `data/train.csv`: earlier observations used for model development.
+- `data/test.csv`: later observations used for out-of-sample evaluation.
 
-## 10. Limitations and Future Extensions
+The CSV files are already included, so running the existing modeling scripts does not require downloading the data again.
 
-Potential extensions include:
+## Methods
 
-- Comparing ARIMAX with GARCH and VAR-based forecasting approaches.
-- Investigating alternative lag structures and predictor specifications.
-- Evaluating forecast performance across different market regimes.
-- Extending the framework to machine-learning-based forecasting models.
+### 1. ARIMAX
 
-## 11. Disclaimer
+The main ARIMAX workflow models daily changes in Brent prices using:
 
-This project is intended for educational and quantitative research purposes only. Forecasts are not investment recommendations.
+- Daily changes in WTI prices.
+- Daily changes in XLE.
+- A lagged 60-trading-day Brent price change.
+- AR(3) dynamics in the model's error component.
+
+The current specification uses an ARIMAX(3,0,0) form for the Brent-change target. Auxiliary AR models forecast WTI changes with AR(2) and XLE changes with AR(1). These forecasts are used as exogenous inputs in the recursive 60-step Brent forecast.
+
+Relevant files:
+
+- `models/ARIMAX_model.R`
+- `forecasting/arimax_forecast60.R`
+
+### 2. Multilayer Perceptron (MLP)
+
+The Python implementation uses a feed-forward neural network:
+
+```text
+Input features
+      |
+Linear(n_features, hidden)
+      |
+ReLU
+      |
+Linear(hidden, 16)
+      |
+ReLU
+      |
+Linear(16, 1)
+      |
+Predicted Brent price change
+```
+
+The feature-engineering pipeline uses Brent, WTI, and XLE price levels to construct daily changes, lagged changes (1, 2, 5, 10, and 20 periods), moving averages, rolling volatility measures, momentum features, and the Brent–WTI spread.
+
+The backtest script selects 30 features using `SelectKBest(f_regression)`, searches hidden-layer size and learning-rate combinations using `TimeSeriesSplit`, and evaluates 1-, 5-, 20-, and 60-day targets. The standalone future-forecast script fixes the MLP configuration at `hidden=32`, `lr=0.0001`, and 200 epochs, and writes a 60-row forecast table.
+
+Relevant files:
+
+- `models/mlp_model.py`
+- `forecasting/mlp_forecast60.py`
+
+### 3. Random Walk benchmark
+
+The benchmark uses a no-drift ARIMA(0,1,0) model. At every forecast origin, all future price forecasts equal the last observed Brent price:
+
+```text
+Forecast(t + h | t) = Brent price at t
+```
+
+Relevant file: `models/Random_Walk.R`.
+
+## Backtesting and Metrics
+
+The ARIMAX and Random Walk R scripts use the following rolling-origin settings:
+
+| Setting | Value |
+|---|---:|
+| Forecast horizons | 1, 5, 20, 60 trading days |
+| Rolling estimation window | 1,000 observations |
+| Forecast-origin step | 10 observations |
+| Parameter re-estimation | Every 20 observations |
+| Evaluation data | Chronological test set |
+
+At each origin, only history available up to that point is used to generate a forecast. The scripts store actual and predicted prices for each horizon in separate CSV files.
+
+The repository reports four metrics:
+
+- **MAE (Mean Absolute Error):** average absolute difference between predicted and actual prices. Lower is better.
+- **RMSE (Root Mean Squared Error):** square root of the average squared prediction error. Lower is better and larger errors receive greater weight.
+- **MAPE (Mean Absolute Percentage Error):** average absolute percentage error. Lower is better, provided actual values are non-zero.
+- **DA (Directional Accuracy):** percentage of forecast origins for which the predicted direction matches the realized direction over the selected horizon. Higher is better than a lower DA, although results near 50% indicate limited directional signal.
+
+The Random Walk has `DA = NA` in the saved benchmark table because its predicted price change is exactly zero, so its directional prediction is undefined under the implementation's convention.
+
+## Reported Results
+
+The metrics below are read from the currently committed CSV result files. They are presented as stored outputs, not as a guarantee that rerunning code in a different environment will reproduce them exactly.
+
+### RMSE comparison
+
+| Horizon | ARIMAX RMSE | MLP RMSE | Random Walk RMSE | Lowest stored RMSE |
+|---:|---:|---:|---:|---|
+| 1 day | 2.7611 | 2.8095 | 2.8058 | ARIMAX |
+| 5 days | 4.6059 | 4.5533 | 4.6008 | MLP |
+| 20 days | 8.5990 | 8.7076 | 8.6696 | ARIMAX |
+| 60 days | 14.2787 | 13.7497 | 14.1581 | MLP |
+
+### MLP directional accuracy
+
+| Horizon | MLP DA |
+|---:|---:|
+| 1 day | 53.28% |
+| 5 days | 57.66% |
+| 20 days | 51.82% |
+| 60 days | 67.15% |
+
+In the currently saved results, ARIMAX has the lowest RMSE at the 1-day and 20-day horizons, while MLP has the lowest RMSE at the 5-day and 60-day horizons. The MLP's stored directional accuracy is highest at the 60-day horizon. These are empirical results on the project's existing evaluation outputs; they do not establish that one model will remain superior in future markets.
+
+For the model-by-model metric tables, see:
+
+- [ARIMAX performance](results/arimax_performance.csv)
+- [MLP performance](results/mlp_performance.csv)
+- [Random Walk performance](results/random_walk_performance.csv)
+
+## Setup
+
+### R environment
+
+Install R, then install the packages used by the scripts:
+
+```r
+install.packages(c("quantmod", "fBasics", "forecast", "tseries"))
+```
+
+The data-preparation script uses Yahoo Finance connectivity. If you only want to run the modeling scripts on the CSV files already included in the repository, you can skip data downloading.
+
+### Python environment
+
+Use Python 3.10 or a compatible recent Python version with the following packages:
+
+```bash
+python -m pip install numpy pandas matplotlib scikit-learn torch
+```
+
+A virtual environment is recommended to keep project dependencies separate from other Python projects.
+
+## Reproduce the Analysis
+
+Run commands from the **repository root** so the relative R paths such as `data/train.csv` and `results/` resolve correctly.
+
+### Step 1 — Prepare or refresh the data (optional)
+
+In R:
+
+```r
+source("preprocessing/Data_Preparation.R")
+```
+
+This downloads the three market series, aligns common dates, and creates the full, training, and testing CSV files. The script writes CSVs to its current working directory, so make sure the working directory is the repository's `data/` folder or adjust the output paths before running it. The committed data files can be used without this step.
+
+### Step 2 — Run ARIMAX rolling backtesting
+
+In R:
+
+```r
+source("models/ARIMAX_model.R")
+```
+
+This estimates the model, performs rolling-origin evaluation for the four horizons, and writes the ARIMAX performance and prediction CSV files to `results/`.
+
+### Step 3 — Run the Random Walk benchmark
+
+In R:
+
+```r
+source("models/Random_Walk.R")
+```
+
+This writes `results/random_walk_performance.csv`.
+
+### Step 4 — Run the MLP backtest and hyperparameter search
+
+From the repository root:
+
+```bash
+python models/mlp_model.py
+```
+
+This trains the MLP configurations, performs time-series cross-validation for hyperparameter selection, and writes the MLP metric and backtest CSV files to `results/`. Neural-network training may take longer than the R scripts, depending on hardware.
+
+### Step 5 — Generate the ARIMAX 60-step forecast
+
+In R:
+
+```r
+source("forecasting/arimax_forecast60.R")
+```
+
+This reads `data/data.csv` and writes `results/arimax_forecast60.csv`.
+
+### Step 6 — Generate the MLP 60-horizon forecasts
+
+From the repository root:
+
+```bash
+python forecasting/mlp_forecast60.py
+```
+
+This writes `results/mlp_forecast60.csv`. It fits a separate direct-horizon MLP for each forecast horizon from 1 through 60, using the fixed configuration documented above.
+
+### Step 7 — Inspect visualizations
+
+Open the notebooks in `visualization/` with Jupyter Notebook or JupyterLab:
+
+```bash
+python -m pip install jupyter
+jupyter notebook
+```
+
+Use `visualization/historical_comparison.ipynb` for historical comparisons and model evaluation plots, and `visualization/forecast_60.ipynb` for future forecast visualization. Existing PNGs are available in `figures/`.
+
+## Forecast Output
+
+| Output | Description |
+|---|---|
+| `results/arimax_forecast60.csv` | 60 ARIMAX forecast values |
+| `results/mlp_forecast60.csv` | 60 MLP forecast values |
+| `results/arimax_backtest_h{1,5,20,60}.csv` | ARIMAX origin date, target date, origin price, actual price, and prediction |
+| `results/mlp_backtest_h{1,5,20,60}.csv` | MLP forecast-origin prices and predictions |
+| `results/*_performance.csv` | Model-level metrics by horizon |
+
+The forecast scripts currently export the horizon number and predicted price, rather than a calendar date column. The MLP forecasting code calculates a set of future business dates internally but does not include those dates in the saved CSV. Therefore, interpret the output `Horizon` as a forecast step, not a guaranteed exchange trading date.
+
+## Important Evaluation Notes
+
+- **The backtesting implementations differ.** The R ARIMAX and Random Walk scripts use a 1,000-observation rolling window, ten-observation forecast steps, and periodic refitting. The MLP backtest uses selected features and horizon-specific model training with forecast origins spaced ten test observations apart. The reported metrics should therefore be treated as the results of the implementations currently in the repository, not a perfectly controlled head-to-head experiment.
+- **Feature-selection timing deserves scrutiny.** In the current MLP backtest, the top 30 features are selected once using the training sample and a 20-day target, then reused for all four horizons. This avoids selecting features directly on test outcomes, but the feature selection step is outside each cross-validation fold. For a strictly leakage-controlled hyperparameter comparison, feature selection and scaling should be fitted inside each time-series CV training fold.
+- **Future covariates are forecasted or approximated.** The recursive ARIMAX forecast depends on forecasts of WTI and XLE changes. The MLP 60-horizon script predicts a direct price change for each horizon from the latest feature row; it does not recursively create a new future feature row for each subsequent day.
+- **Forecast dates are not exchange calendars.** A business-day index can include dates when a particular exchange is closed. Calendar dates should be aligned to the relevant market trading calendar if required for downstream use.
+- **Data sources can change.** Yahoo Finance history and availability can change. Re-downloading data may yield different final observations or revised results.
+
+## Limitations and Further Work
+
+Possible next steps include:
+
+- Refit feature selection and scaling inside each time-series cross-validation fold.
+- Standardize forecast origins, information sets, rolling windows, and tuning protocols across models before drawing formal performance conclusions.
+- Add confidence or prediction intervals and evaluate forecast calibration.
+- Evaluate performance across different oil-market regimes.
+- Add transaction costs and a clearly specified trading rule only if the project is extended from price forecasting to strategy testing.
+
+## Authentication and Credentials
+
+This repository is a local data-analysis project. The inspected source files do not implement application login, user sessions, API-token exchange, OAuth, or a model-serving authentication layer. GitHub authentication is handled by GitHub itself when a contributor clones or pushes to the repository; it is not part of the forecasting model's request flow.
+
+The data-preparation script retrieves market data from Yahoo Finance through `quantmod` and does not define an API token in the project source. Do not put personal access tokens, passwords, or other secrets into the repository. If an authenticated external data provider is added later, credentials should be stored outside source control (for example, in environment variables or a local ignored configuration file).
+
+## Disclaimer
+
+This project is for educational and quantitative research purposes only. It is not investment advice, and model outputs should not be used as the sole basis for investment decisions.
