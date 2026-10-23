@@ -1,6 +1,6 @@
 library(stats)
 library(forecast)
-df <- read.csv("C:/Users/qkq/Desktop/oil_price_forecast/data/data.csv",header = T)
+df <- read.csv("data/data.csv",header = T)
 tail(df)
 
 d1 = diff(df$brent_Price)
@@ -137,78 +137,29 @@ forecast_results <- data.frame(
 print(round(forecast_results, 4))
 
 # =====================================
-# PLOT FUTURE 60 DAYS
+# EXPORT ARIMAX 60-DAY FORECAST TO CSV
 # =====================================
-h <- 60
 
-# ARIMAX future 60-day forecasts
-arimax_60 <- as.numeric(brent_forecast)
+# Output directory
+results_dir <- "results"
 
-# Random Walk
-# ARIMA(0,1,0): E(P_T+h | F_T) = P_T
-last_price <- tail(df$brent_Price, 1)
-
-rw_60 <- rep(last_price, h)
-
-stopifnot(
-  length(arimax_60) == h,
-  all(is.finite(arimax_60)),
-  all(is.finite(rw_60))
+dir.create(
+  results_dir,
+  showWarnings = FALSE,
+  recursive = TRUE
 )
 
-# Future trading days
-future_days <- 1:h
-
-# Plot range
-ylim_range <- range(arimax_60, rw_60)
-padding <- max(diff(ylim_range) * 0.15, 0.5)
-
-# ARIMAX forecast
-dir.create("figures", showWarnings = FALSE)
-
-png(
-  "figures/forecast_60_days.png",
-  width = 1400,
-  height = 850,
-  res = 150
+# Create forecast table
+arimax_forecast_df <- data.frame(
+  Horizon = 1:60,
+  ARIMAX = as.numeric(brent_forecast)
 )
 
-plot(
-  future_days,
-  arimax_60,
-  type = "l",
-  col = "red",
-  lwd = 2.5,
-  ylim = ylim_range + c(-padding, padding),
-  xlab = "Forecast Horizon (Trading Days)",
-  ylab = "Brent Price",
-  main = "Future 60-Day Brent Price Forecast",
-  xaxt = "n"
+# Save CSV
+write.csv(
+  arimax_forecast_df,
+  file.path(results_dir, "arimax_forecast60.csv"),
+  row.names = FALSE
 )
 
-axis(1, at = c(1, 10, 20, 30, 40, 50, 60))
-
-# Random Walk forecast
-lines(
-  future_days,
-  rw_60,
-  col = "blue",
-  lwd = 2.5,
-  lty = 2
-)
-
-grid(col = "gray85", lty = "dotted")
-
-legend(
-  "topleft",
-  legend = c(
-    "ARIMAX",
-    "Random Walk"
-  ),
-  col = c("red", "blue"),
-  lty = c(1, 2),
-  lwd = 2.5,
-  bty = "n"
-)
-
-dev.off()
+cat("\nARIMAX 60-day forecast saved successfully!\n")
